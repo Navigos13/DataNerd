@@ -1,0 +1,2 @@
+This project marks the start of my long data engineering/analysis journey
+Hoping to learning many things along the way
