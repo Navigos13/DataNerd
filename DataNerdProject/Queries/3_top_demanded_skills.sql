@@ -23,7 +23,8 @@ LEFT JOIN skills_dim AS s
 ON sj.skill_id = s.skill_id
 
 WHERE 
-    j.job_title_short = 'Data Engineer'
+    j.job_title_short = 'Data Engineer' 
+    AND j.job_location LIKE 'India'
 
 GROUP BY 
     s.skills
