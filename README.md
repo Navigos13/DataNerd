@@ -70,7 +70,7 @@ Here's the breakdown of the top data engineer jobs in 2023:
 
 - **Job Title Variety**: There's a high diversity in job titles, from Data Engineer to Director of Engineering - Data Platform, reflecting varied roles and specializations within data engineering.
 
-![Top Paying Roles](DataNerdProject\Assets\Top_10_highest_paying_jobs.png)
+![Top Paying Roles](DataNerdProject/Assets/Top_10_highest_paying_jobs.png)
 *Bar graph visualizing the salary for the top 10 salaries for data engineers; ChatGPT generated this graph from my SQL query results*
 
 # What I learned
@@ -89,7 +89,7 @@ Throughout this adventure, I've turbocharged my SQL toolkit with some serious fi
 ### Insights  
 From the analysis, several general insights emerged:  
 
-1. **Top-Paying Data engineer Jobs**: The highest-paying jobs for data engineers that allow remote work offer a wide range of salaries, the highest at $650,000!  
+1. **Top-Paying Data engineer Jobs**: The highest-paying jobs for data engineers that allow remote work offer a wide range of salaries, the highest at $325,000!  
 
 2. **Skills for Top-Paying Jobs**: High-paying data engineer jobs require advanced proficiency in SQL, suggesting it's a critical skill for earning a top salary.
 
