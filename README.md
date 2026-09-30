@@ -123,6 +123,193 @@ Other skills like sql, databricks, pandas, numpy, pyspark, kubernetes show varyi
 ![Top Paying Skills](DataNerdProject/Assets/Top_10_highest_paying_skills.png)
 *Bar graph visualizing the count of skills for the top 10 paying jobs for data engineers; Gemini generated this graph from my SQL query results*
 
+### 3. In-Demand Skills for Data Engineers
+
+This query helped identify the skills most frequently requested in job postings, directing focus to areas with high demand.
+
+``` sql
+SELECT 
+    s.skills,
+    COUNT(sj.job_id) AS in_demand_count
+
+FROM job_postings_fact j
+
+LEFT JOIN skills_job_dim AS sj 
+ON j.job_id = sj.job_id
+
+LEFT JOIN skills_dim AS s 
+ON sj.skill_id = s.skill_id
+
+WHERE 
+    j.job_title_short = 'Data Engineer' 
+    AND j.job_location LIKE 'India'
+
+GROUP BY 
+    s.skills
+
+ORDER BY 
+    in_demand_count DESC
+
+LIMIT 5;
+```
+
+| Skills | Demand Count |
+| :--- | :--- |
+| SQL | 1155 |
+| Python | 1073 |
+| Spark | 671 |
+| AWS | 643 |
+| Azure | 608 |
+
+Table of the demand for the top 5 skills in data engineer job postings
+
+### 4. Skills Based on Salary
+
+Exploring the average salaries associated with different skills revealed which skills are the highest paying.
+
+``` sql
+SELECT 
+    skills,
+    ROUND(AVG(j.salary_year_avg), 0) AS salary_avg
+
+FROM job_postings_fact j 
+
+INNER JOIN skills_job_dim s ON j.job_id = s.job_id
+INNER JOIN skills_dim sd ON s.skill_id = sd.skill_id
+
+WHERE j.job_title_short = 'Data Engineer'
+AND j.salary_year_avg IS NOT NULL
+-- AND j.job_work_from_home = TRUE
+
+GROUP BY skills
+
+ORDER BY salary_avg DESC
+
+LIMIT 10;
+```
+Here's a breakdown of the results for top paying skills for data engineer:
+
+- High Demand for Full-Stack & Web Application Frameworks: The top spot is claimed by Node ($181,862), alongside Vue ($159,375), highlighting that data professionals who possess full-stack software development skills to build web applications, endpoints, and data delivery platforms command a massive salary premium.
+
+- Scalable NoSQL & Big Data Infrastructure: Mongo ($179,403) and Cassandra ($150,255) represent two of the highest-earning skills, emphasizing that companies heavily reward engineers skilled in architecting, querying, and managing high-throughput, non-relational database systems.
+
+- Specialized Visualization, Blockchain & Low-Level Languages: ggplot2 ($176,250) leads in visualization capability, while niche tools and languages like Solidity ($166,250 for smart contract/blockchain logic), CodeCommit ($155,000 for version control/deployment), Ubuntu ($154,455 for Linux OS mastery), Clojure ($153,663 for functional programming), and Rust ($147,771 for high-performance memory safety) reflect a heavy market premium on specialized systems engineering and advanced analytics.
+
+
+| Skills | Average Salary ($) |
+| --- | --- |
+| Node | $181,862 |
+| Mongo | $179,403 |
+| ggplot2 | $176,250 |
+| Solidity | $166,250 |
+| Vue | $159,375 |
+| CodeCommit | $155,000 |
+| Ubuntu | $154,455 |
+| Clojure | $153,663 |
+| Cassandra | $150,255 |
+| Rust | $147,771 |
+
+Table of the average salary for the top 10 paying skills for data engineers
+
+### 5. Most Optimal Skilles to Learn
+
+Combining insights from demand and salary data, this query aimed to pinpoint skills that are both in high demand and have high salaries, offering a strategic focus for skill development.
+
+``` sql
+WITH Skill_demand AS (
+    SELECT 
+        sj.skill_id,
+        sd.skills,
+        COUNT(sj.job_id) AS in_demand_count
+
+    FROM job_postings_fact j
+
+    INNER JOIN skills_job_dim sj
+        ON j.job_id = sj.job_id
+
+    INNER JOIN skills_dim sd
+        ON sj.skill_id = sd.skill_id
+
+    WHERE j.job_title_short = 'Data Engineer'
+      AND j.job_location LIKE 'India'
+      AND j.salary_year_avg IS NOT NULL
+
+    GROUP BY 
+        sj.skill_id,
+        sd.skills
+),
+
+average_salary AS (
+    SELECT 
+        sj.skill_id,
+        sd.skills,
+        ROUND(AVG(j.salary_year_avg), 0) AS salary_avg
+
+    FROM job_postings_fact j
+
+    INNER JOIN skills_job_dim sj
+        ON j.job_id = sj.job_id
+
+    INNER JOIN skills_dim sd
+        ON sj.skill_id = sd.skill_id
+
+    WHERE j.job_title_short = 'Data Engineer'
+      AND j.salary_year_avg IS NOT NULL
+      AND j.job_work_from_home = TRUE
+
+    GROUP BY 
+        sj.skill_id,
+        sd.skills
+)
+
+SELECT 
+    skill_demand.skill_id,
+    skill_demand.skills,
+    skill_demand.in_demand_count,
+    average_salary.salary_avg
+
+FROM skill_demand
+
+INNER JOIN average_salary
+    ON skill_demand.skill_id = average_salary.skill_id
+
+-- WHERE in_demand_count > 10
+ORDER BY in_demand_count DESC, 
+         salary_avg DESC
+
+LIMIT 10;
+```
+
+
+
+
+| Skill ID | Skills | Demand Count | Average Salary ($) |
+| :--- | :--- | :--- | :--- |
+| 213 | Kubernetes | 3 | $158,190 |
+| 98 | Kafka | 5 | $150,549 |
+| 93 | Pandas | 4 | $144,656 |
+| 3 | Scala | 4 | $141,777 |
+| 92 | Spark | 9 | $139,838 |
+| 62 | MongoDB | 5 | $138,569 |
+| 96 | Airflow | 3 | $138,518 |
+| 4 | Java | 6 | $138,087 |
+| 97 | Hadoop | 5 | $137,707 |
+| 2 | NoSQL | 9 | $136,430 |
+
+Table of the most optimal skills for data analyst sorted by salary
+
+Here's a breakdown of the most optimal skills based on demand and average salary:
+
+- High-Demand Core Technologies: SQL and Python lead overall demand with 23 and 16 job counts, respectively. While widely required across data roles, they maintain strong earning potential with average salaries around $129,191 for SQL and $132,200 for Python, reflecting their status as essential foundational tools.
+
+- Cloud Platforms & Big Data Ecosystems: Cloud infrastructure tools (Azure, AWS) and big data processing frameworks (Spark, Databricks) show substantial demand (ranging from 9 to 14 counts) alongside premium average salaries up to $139,838 for Spark, highlighting the high compensation tied to enterprise cloud architecture and distributed data processing.
+
+- Database & Object-Oriented Engineering: Proficiency in non-relational storage (NoSQL) and traditional programming (Java) commands high average salaries ($136,430 and $138,087 respectively), indicating a strong market preference for data engineering, system integration, and flexible database management capabilities.
+
+- Business Intelligence & Data Visualization: Core BI tools like Tableau (8 count, $115,246 avg) and Power BI (7 count, $116,949 avg) remain top-tier requirements for reporting, demonstrating consistent demand for turning raw data into visual executive insights.
+
+
+
 # What I learned
 
 Throughout this adventure, I've turbocharged my SQL toolkit with some serious firepower:
