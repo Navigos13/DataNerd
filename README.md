@@ -73,6 +73,56 @@ Here's the breakdown of the top data engineer jobs in 2023:
 ![Top Paying Roles](DataNerdProject/Assets/Top_10_highest_paying_jobs.png)
 *Bar graph visualizing the salary for the top 10 salaries for data engineers; ChatGPT generated this graph from my SQL query results*
 
+### 2. Skills for Top Paying Jobs
+
+To understand what skills are required for the top-paying jobs, I joined the job postings with the skills data, providing insights into what employers value for high-compensation roles.
+
+``` sql
+WITH top_jobs AS (
+    SELECT 
+        j.job_id, 
+        j.job_title_short, 
+        j.salary_year_avg,
+        c.name AS company_name
+
+    FROM job_postings_fact AS j
+    LEFT JOIN company_dim AS c
+    ON j.company_id = c.company_id
+
+    WHERE
+        j.job_title_short = 'Data Engineer'
+        AND
+        j.salary_year_avg IS NOT NULL
+        AND
+        j.job_location = 'Anywhere'
+
+    ORDER BY j.salary_year_avg DESC
+
+    LIMIT 10
+)
+
+SELECT 
+    top_jobs.*,
+    sd.skills 
+FROM top_jobs
+INNER JOIN skills_job_dim AS s ON top_jobs.job_id = s.job_id
+INNER JOIN skills_dim AS sd ON s.skill_id = sd.skill_id
+ORDER BY top_jobs.salary_year_avg DESC;
+```
+
+Here's the breakdown of the most demanded skills for the top 10 highest paying data analyst jobs in 2023:
+
+- **Python** is leading with a bold count of 7.
+
+- **Spark** follows closely with a bold count of 5.
+
+- **Tableau, Kafka and Scala** are also highly sought after, with a bold count of 3 each
+
+Other skills like sql, databricks, pandas, numpy, pyspark, kubernetes show varying degrees of demand.
+
+![Top Paying Skills](DataNerdProject/Assets/Top_10_highest_paying_skills.png)
+*Bar graph visualizing the count of skills for the top 10 paying jobs for data engineers; Gemini generated this graph from my SQL query results*
+
 # What I learned
 
 Throughout this adventure, I've turbocharged my SQL toolkit with some serious firepower:
