@@ -110,13 +110,13 @@ INNER JOIN skills_dim AS sd ON s.skill_id = sd.skill_id
 ORDER BY top_jobs.salary_year_avg DESC;
 ```
 
-Here's the breakdown of the most demanded skills for the top 10 highest paying data analyst jobs in 2023:
+Here's the breakdown of the most demanded skills for the top 10 highest paying data engineer jobs in 2023:
 
-- **Python** is leading with a bold count of 7.
+- **Python** is leading with a count of 7 postings.
 
-- **Spark** follows closely with a bold count of 5.
+- **Spark** follows closely with a count of 5.
 
-- **Tableau, Kafka and Scala** are also highly sought after, with a bold count of 3 each
+- **Tableau, Kafka and Scala** are also highly sought after, with a count of 3 each
 
 Other skills like sql, databricks, pandas, numpy, pyspark, kubernetes show varying degrees of demand.
 
@@ -211,7 +211,7 @@ Here's a breakdown of the results for top paying skills for data engineer:
 
 Table of the average salary for the top 10 paying skills for data engineers
 
-### 5. Most Optimal Skilles to Learn
+### 5. Most Optimal Skills to Learn
 
 Combining insights from demand and salary data, this query aimed to pinpoint skills that are both in high demand and have high salaries, offering a strategic focus for skill development.
 
@@ -274,8 +274,9 @@ INNER JOIN average_salary
     ON skill_demand.skill_id = average_salary.skill_id
 
 -- WHERE in_demand_count > 10
-ORDER BY in_demand_count DESC, 
-         salary_avg DESC
+ORDER BY salary_avg DESC,
+        in_demand_count DESC 
+         
 
 LIMIT 10;
 ```
@@ -296,17 +297,15 @@ LIMIT 10;
 | 97 | Hadoop | 5 | $137,707 |
 | 2 | NoSQL | 9 | $136,430 |
 
-Table of the most optimal skills for data analyst sorted by salary
+Table of the most optimal skills for data engineer sorted by salary
 
 Here's a breakdown of the most optimal skills based on demand and average salary:
 
-- High-Demand Core Technologies: SQL and Python lead overall demand with 23 and 16 job counts, respectively. While widely required across data roles, they maintain strong earning potential with average salaries around $129,191 for SQL and $132,200 for Python, reflecting their status as essential foundational tools.
+- DevOps & Streaming Infrastructure: Kubernetes ($158,190) and Kafka ($150,549) lead average salaries, showing that container orchestration and real-time streaming architectures command top compensation in data engineering.
 
-- Cloud Platforms & Big Data Ecosystems: Cloud infrastructure tools (Azure, AWS) and big data processing frameworks (Spark, Databricks) show substantial demand (ranging from 9 to 14 counts) alongside premium average salaries up to $139,838 for Spark, highlighting the high compensation tied to enterprise cloud architecture and distributed data processing.
+- Data Processing & Analytics: Libraries and distributed computing engines like Pandas ($144,656), Scala ($141,777), and Spark ($139,838) confirm that advanced data manipulation skills drive high earning potential.
 
-- Database & Object-Oriented Engineering: Proficiency in non-relational storage (NoSQL) and traditional programming (Java) commands high average salaries ($136,430 and $138,087 respectively), indicating a strong market preference for data engineering, system integration, and flexible database management capabilities.
-
-- Business Intelligence & Data Visualization: Core BI tools like Tableau (8 count, $115,246 avg) and Power BI (7 count, $116,949 avg) remain top-tier requirements for reporting, demonstrating consistent demand for turning raw data into visual executive insights.
+- Enterprise Databases & Orchestration: High compensation is consistently tied to NoSQL solutions (MongoDB at $138,569 and NoSQL at $136,430), pipeline orchestration (Airflow at $138,518), and compiled backend languages (Java at $138,087).
 
 
 
@@ -326,15 +325,15 @@ Throughout this adventure, I've turbocharged my SQL toolkit with some serious fi
 ### Insights  
 From the analysis, several general insights emerged:  
 
-1. **Top-Paying Data engineer Jobs**: The highest-paying jobs for data engineers that allow remote work offer a wide range of salaries, the highest at $325,000!  
+1. **Top-Paying Data Engineer Jobs**: The highest-paying jobs for data engineers that allow remote work offer a wide range of salaries, the highest at $325,000!  
 
 2. **Skills for Top-Paying Jobs**: High-paying data engineer jobs require advanced proficiency in SQL, suggesting it's a critical skill for earning a top salary.
 
 3. **Most In-Demand Skills**: SQL is also the most demanded skill in the data engineer job market, thus making it essential for job seekers.
 
-4. **Skills with Higher Salaries**: Specialized skills, such as SVN and Solidity, are associated with the highest average salaries, indicating a premium on niche expertise.
+4. **Skills with Higher Salaries**: Niche web delivery and specialized database technologies like Node, Mongo, and Solidity command top market salaries.
 
-5. **Optimal Skills for Job Market Value**: SQL leads in demand and offers for a high average salary, positioning it as one of the most optimal skills for data engineers to learn to maximize their market value.
+5. **Optimal Skills for Job Market Value**: Pairing foundational technologies (SQL, Python) with cloud orchestration and streaming tools (Kubernetes, Kafka, Airflow) offers the highest salary upside.
 
 ### Closing Thoughts
 
